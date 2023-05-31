@@ -48,4 +48,36 @@ npm install eslint-config-prettier -D
   },
 ```
 
-### 2.git 提交配置
+### 2.Mock 数据工具
+
+`json-server`:
+rest api 风格
+使用说明:
+
+```
+安装:
+npm install json-server -D
+
+配置package.json:
+ "json-server": "json-server __json_server_mock__/db.json --watch --port 3004"
+
+启动;
+json-server --watch db.json
+```
+
+## 错误介绍
+
+### 1.prettier
+
+```
+Invalid configuration file `.prettierrc.json`: JSON Error in E:\学习资料\hook-ts项目\myjira\.prettierrc.json:
+[error]
+[error] > 1 | ��{
+[error]     | ^
+[error]   2 |
+[error]   3 |
+[error]   4 |
+
+将编码格式utf-16
+更改为utf-8
+```
