@@ -65,6 +65,18 @@ npm install json-server -D
 json-server --watch db.json
 ```
 
+### 3.请求相关
+
+转换请求的 query 参数格式
+
+```
+qs:
+npm install qs
+
+使用:
+qs.stringify(cleanObject(inputValue))
+```
+
 ## 错误介绍
 
 ### 1.prettier
