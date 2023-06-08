@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 
 //页面加载数据
-export const useMount = (callback) => {
+export const useMount = (callback: () => void) => {
   useEffect(() => {
     callback();
   }, []);
 };
 
-export const useDebounce = (value, delay) => {
+export const useDebounce = (value: any, delay?: number) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
 
   useEffect(() => {

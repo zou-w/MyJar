@@ -75,6 +75,10 @@ npm install qs
 
 使用:
 qs.stringify(cleanObject(inputValue))
+
+//ts中如果引入类型错误
+//安装:
+npm install @types/qs -D
 ```
 
 ## 错误介绍

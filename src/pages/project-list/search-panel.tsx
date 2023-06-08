@@ -1,4 +1,25 @@
-export const SearchPanel = ({ inputValue, setInputValue, users }) => {
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  title: string;
+  organization: string;
+}
+
+interface SearchPanelProps {
+  users: User[];
+  inputValue: {
+    name: string;
+    personId: string;
+  };
+  setInputValue: (inputValue: SearchPanelProps["inputValue"]) => void;
+}
+
+export const SearchPanel = ({
+  inputValue,
+  setInputValue,
+  users,
+}: SearchPanelProps) => {
   return (
     <form>
       <div>

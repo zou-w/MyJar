@@ -12,6 +12,8 @@ import { useDebounce, useMount } from "utils/myHook";
 //请求的baseUrl
 const apiUrl = process.env.REACT_APP_API_URL;
 
+//引入类型约束
+
 export const ProjectList = () => {
   //input输入框
   const [inputValue, setInputValue] = useState({
