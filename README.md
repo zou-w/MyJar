@@ -50,6 +50,8 @@ npm install eslint-config-prettier -D
 
 ### 2.Mock 数据工具
 
+#### 1.json-server
+
 `json-server`:
 rest api 风格
 使用说明:
@@ -63,6 +65,45 @@ npm install json-server -D
 
 启动;
 json-server --watch db.json
+```
+
+当请求不为 rest 风格的时候
+eg: /login
+需要配置中间键
+
+```
+//创建middleware.js文件,在里面配置类型
+
+module.exports = (req, res, next) => {
+  if (req.method === "POST" && req.path === "/login") {
+    if (req.body.username === "admin" && req.body.password === "123") {
+      return res.status(200).json({
+        user: {
+          token: "123",
+        },
+      });
+    } else {
+      return res.status(400).json({ message: "用户名或者密码错误" });
+    }
+  }
+  next();
+};
+
+//然后在package.json文件添加启动指令
+
+"json-server": "json-server __json_server_mock__/db.json --watch --port 3004 --middlewares ./__json_server_mock__/middleware.js"
+
+```
+
+#### 2.Service Worker
+
+1. 所有请求被 Service Worker 代理
+2. 以 localStorage 为数据库进行 crud 操作
+3. 可以对请求进行精准控制
+
+```
+安装:
+npx imooc-jira-tool
 ```
 
 ### 3.请求相关
