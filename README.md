@@ -138,3 +138,17 @@ Invalid configuration file `.prettierrc.json`: JSON Error in E:\学习资料\hoo
 将编码格式utf-16
 更改为utf-8
 ```
+
+### 2.jira-dev-tool
+
+```
+The mocking is still enabled, but it's highly recommended that you update your Service Worker by running:
+
+$ npx msw init <PUBLIC_DIR>
+
+This is necessary to ensure that the Service Worker is in sync with the library to guarantee its stability.
+If this message still persists after updating, please report an issue: https://github.com/open-draft/msw/issues
+
+
+//运行 npx msw init ./public 以后错误消失
+```
