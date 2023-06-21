@@ -4,11 +4,25 @@ import React, { ReactNode } from "react";
 import { useState } from "react";
 
 import { User } from "pages/project-list/search-panel";
+import { http } from "utils/http";
+import { useMount } from "utils/myHook";
 
 interface AuthForm {
   username: string;
   password: string;
 }
+
+//初始化user,刷新页面后,数据持久化
+const bootstrapUser = async () => {
+  let user = null;
+  const token = auth.getToken();
+  if (token) {
+    //请求me可以获取个人信息
+    const data = await http("me", { token });
+    user = data.user;
+  }
+  return user;
+};
 
 //创建context
 const AuthContext = React.createContext<
@@ -28,6 +42,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const login = (form: AuthForm) => auth.login(form).then(setUser);
   const register = (form: AuthForm) => auth.register(form).then(setUser);
   const logout = () => auth.logout().then((user) => setUser(null));
+
+  //初始化user
+  useMount(() => {
+    bootstrapUser().then(setUser);
+  });
 
   return (
     <AuthContext.Provider

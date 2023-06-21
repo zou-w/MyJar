@@ -108,7 +108,7 @@ npx imooc-jira-tool
 
 ### 3.请求相关
 
-转换请求的 query 参数格式
+#### 1.转换请求的 query 参数格式
 
 ```
 qs:
@@ -121,6 +121,11 @@ qs.stringify(cleanObject(inputValue))
 //安装:
 npm install @types/qs -D
 ```
+
+#### 2.请求异常
+
+fetch 请求只有请求报错的时候才抛出异常
+axios 是请求不为 200 时就会抛出异常
 
 ## 错误介绍
 
