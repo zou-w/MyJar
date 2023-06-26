@@ -1,5 +1,7 @@
 # 项目介绍
 
+使用 react + ts + json-server + jira-dev-tool + antd + craco + css-in-js
+
 ## 项目配置
 
 ### 1.prettier 配置
@@ -126,6 +128,25 @@ npm install @types/qs -D
 
 fetch 请求只有请求报错的时候才抛出异常
 axios 是请求不为 200 时就会抛出异常
+
+### 4.craco 配置
+
+```
+安装:
+npm install @craco/craco
+npm install craco-less
+
+在package.json中
+
+将react-scripts替换为craco
+```
+
+### 5.emotion 配置
+
+```
+安装:
+ npm install @emotion/react @emotion/styled
+```
 
 ## 错误介绍
 
