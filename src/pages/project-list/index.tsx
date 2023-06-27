@@ -8,6 +8,7 @@ import { cleanObject } from "utils";
 //引入自定义hook
 import { useDebounce, useMount } from "utils/myHook";
 import { useHttp } from "utils/http";
+import styled from "@emotion/styled";
 
 export const ProjectList = () => {
   //input输入框
@@ -35,13 +36,18 @@ export const ProjectList = () => {
   });
 
   return (
-    <div>
+    <Container>
+      <h1>项目列表</h1>
       <SearchPanel
         inputValue={inputValue}
         setInputValue={setInputValue}
         users={users}
       />
       <List list={list} users={users} />
-    </div>
+    </Container>
   );
 };
+
+const Container = styled.div`
+  padding: 3.2rem;
+`;

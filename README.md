@@ -1,6 +1,6 @@
 # 项目介绍
 
-使用 react + ts + json-server + jira-dev-tool + antd + craco + css-in-js
+使用 react + ts + json-server + jira-dev-tool + antd + craco + css-in-js + dayjs
 
 ## 项目配置
 
@@ -146,6 +146,14 @@ npm install craco-less
 ```
 安装:
  npm install @emotion/react @emotion/styled
+```
+
+### 6.dayjs
+
+```
+处理时间的工具
+安装:
+npm install dayjs
 ```
 
 ## 错误介绍
