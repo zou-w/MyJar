@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 //unknown是强化版any,传入的值不能使用
 export const isFalsy = (value: unknown) => (value === 0 ? false : !value);
 
@@ -14,4 +16,22 @@ export const cleanObject = (object: { [key: string]: unknown }) => {
     }
   });
   return result;
+};
+
+//动态修改title
+export const useDocumentTitle = (title: string, keepOnUnmount = true) => {
+  const oldTitle = document.title;
+
+  useEffect(() => {
+    document.title = title;
+  }, [title]);
+
+  //老的title
+  useEffect(() => {
+    return () => {
+      if (!keepOnUnmount) {
+        document.title = oldTitle;
+      }
+    };
+  }, [keepOnUnmount, oldTitle]);
 };

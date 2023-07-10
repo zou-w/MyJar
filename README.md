@@ -156,6 +156,15 @@ npm install craco-less
 npm install dayjs
 ```
 
+### 7.react-helmet
+
+```
+修改title等的配置
+安装:
+npm install react-helmet
+npm i --save-dev @types/react-helmet
+```
+
 ## 错误介绍
 
 ### 1.prettier
