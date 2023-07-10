@@ -5,22 +5,27 @@ import { useAuth } from "pages/context/auth-context";
 
 import { Button, Form, Input } from "antd";
 import { LongButton } from ".";
+import { useAsync } from "utils/myHook";
 
-export const LoginPage = () => {
-  const { login, user } = useAuth();
+export const LoginPage = ({ onError }: { onError: (error: Error) => void }) => {
+  const { login } = useAuth();
+  //loading组件
+  const { run, isLoading } = useAsync(undefined, { throwOnError: true });
 
-  const handleSubmit = (values: { username: string; password: string }) => {
+  const handleSubmit = async (values: {
+    username: string;
+    password: string;
+  }) => {
     //阻止自动提交表单
-    login(values);
+    try {
+      await run(login(values));
+    } catch (error: any) {
+      onError(error);
+    }
   };
 
   return (
     <Form onFinish={handleSubmit}>
-      {/* {user ? (
-        <div>
-          登录成功,用户名:{user?.name}, token:{user?.token}
-        </div>
-      ) : null} */}
       <Form.Item
         name={"username"}
         rules={[{ required: true, message: "请输入用户名" }]}
@@ -34,7 +39,7 @@ export const LoginPage = () => {
         <Input type="password" id="password" placeholder="请输入密码" />
       </Form.Item>
       <Form.Item>
-        <LongButton type="primary" htmlType="submit">
+        <LongButton loading={isLoading} type="primary" htmlType="submit">
           登录
         </LongButton>
       </Form.Item>

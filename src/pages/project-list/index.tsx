@@ -3,12 +3,11 @@ import { useEffect, useState } from "react";
 import { List } from "./list";
 import { SearchPanel } from "./search-panel";
 
-import { cleanObject } from "utils";
-
 //引入自定义hook
-import { useDebounce, useMount } from "utils/myHook";
-import { useHttp } from "utils/http";
+import { useAsync, useDebounce, useMount } from "utils/myHook";
 import styled from "@emotion/styled";
+import { useProject } from "utils/project";
+import { useUsers } from "utils/user";
 
 export const ProjectList = () => {
   //input输入框
@@ -18,22 +17,9 @@ export const ProjectList = () => {
   });
   //使用debounce,useEffect监控debounceValue,调用请求
   const debounceValue = useDebounce(inputValue, 500);
-  //option筛选框的人选
-  const [users, setUsers] = useState([]);
-  //获取的数据列表
-  const [list, setList] = useState([]);
-  //封装的请求
-  const client = useHttp();
 
-  //通过输入框,获取数据,发送请求
-
-  useEffect(() => {
-    client("projects", { data: cleanObject(debounceValue) }).then(setList);
-  }, [debounceValue]);
-
-  useMount(() => {
-    client("users").then(setUsers);
-  });
+  const { isLoading, error, data: lists } = useProject(debounceValue);
+  const { data: users } = useUsers();
 
   return (
     <Container>
@@ -41,9 +27,9 @@ export const ProjectList = () => {
       <SearchPanel
         inputValue={inputValue}
         setInputValue={setInputValue}
-        users={users}
+        users={users || []}
       />
-      <List list={list} users={users} />
+      <List loading={isLoading} dataSource={lists || []} users={users || []} />
     </Container>
   );
 };

@@ -186,3 +186,6 @@ If this message still persists after updating, please report an issue: https://g
 
 //运行 npx msw init ./public 以后错误消失
 ```
+
+同步和异步混合使用,使用 try catch 进行使用捕获错误
+useState 中的 setState 操作是异步,获取更新后的值比正常慢
