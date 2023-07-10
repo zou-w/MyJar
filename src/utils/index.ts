@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 //unknown是强化版any,传入的值不能使用
 export const isFalsy = (value: unknown) => (value === 0 ? false : !value);
@@ -20,16 +20,20 @@ export const cleanObject = (object: { [key: string]: unknown }) => {
 
 //动态修改title
 export const useDocumentTitle = (title: string, keepOnUnmount = true) => {
-  const oldTitle = document.title;
+  //useRef在整个生命周期内不会改变值
+  const oldTitle = useRef(document.title).current;
+  // const oldTitle = document.title
+  //页面加载时:oldTitle === 旧title 'React App'
+  //加载后:oldTitle === 新title
 
   useEffect(() => {
     document.title = title;
   }, [title]);
 
-  //老的title
   useEffect(() => {
     return () => {
       if (!keepOnUnmount) {
+        //如果不指定依赖,读到的就是旧title
         document.title = oldTitle;
       }
     };
