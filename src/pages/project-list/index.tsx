@@ -11,23 +11,18 @@ import { useUsers } from "utils/user";
 import { Helmet } from "react-helmet";
 import { useDocumentTitle } from "utils";
 import { useUrlQueryParam } from "utils/url";
+import { useProjectsSearchParams } from "./util";
 
 export const ProjectList = () => {
-  //input输入框
-  // const [, setInputValue] = useState({
-  //   name: "",
-  //   personId: "",
-  // });
-
-  const [inputValue, setInputValue] = useUrlQueryParam(["name", "personId"]);
-  //使用debounce,useEffect监控debounceValue,调用请求
-  const debounceValue = useDebounce(inputValue, 500);
-
-  //请求
-  const { isLoading, error, data: lists } = useProject(debounceValue);
-  const { data: users } = useUsers();
-
   useDocumentTitle("项目列表", false);
+
+  const [inputValue, setInputValue] = useProjectsSearchParams();
+  const {
+    isLoading,
+    error,
+    data: lists,
+  } = useProject(useDebounce(inputValue, 500));
+  const { data: users } = useUsers();
 
   return (
     <Container>

@@ -2,9 +2,11 @@
 // import { jsx } from "@emotion/react";
 
 import { Form, Input, Select } from "antd";
+import { Project } from "./list";
+import { UserSelect } from "components/user-select";
 
 export interface User {
-  id: string;
+  id: number;
   name: string;
   email: string;
   title: string;
@@ -14,10 +16,7 @@ export interface User {
 
 interface SearchPanelProps {
   users: User[];
-  inputValue: {
-    name: string;
-    personId: string;
-  };
+  inputValue: Partial<Pick<Project, "name" | "personId">>;
   setInputValue: (inputValue: SearchPanelProps["inputValue"]) => void;
 }
 
@@ -39,21 +38,13 @@ export const SearchPanel = ({
         />
       </Form.Item>
       <Form.Item>
-        <Select
+        <UserSelect
+          defaultOptionName="负责人:"
           value={inputValue.personId}
           onChange={(value) =>
             setInputValue({ ...inputValue, personId: value })
           }
-        >
-          <Select.Option value="">负责人:</Select.Option>
-          {users.map((item) => {
-            return (
-              <Select.Option value={String(item.id)} key={item.id}>
-                {item.name}
-              </Select.Option>
-            );
-          })}
-        </Select>
+        />
       </Form.Item>
     </Form>
   );
