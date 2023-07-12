@@ -4,8 +4,12 @@ import { useAuth } from "pages/context/auth-context";
 import { ProjectList } from "pages/project-list";
 import { ReactComponent as SoftwareLogo } from "assets/software-logo.svg";
 import { Button, Dropdown, Menu, MenuProps, Space } from "antd";
-import React from "react";
 
+import { Navigate, Route, Routes } from "react-router";
+import { ProjectScreen } from "pages/project";
+
+import routes from "routes";
+import { resetRoute } from "utils";
 /**
  * grid 和 flex 各自的应用场景
  * 1. 要考虑，是一维布局 还是 二维布局
@@ -19,32 +23,46 @@ import React from "react";
  */
 
 export const AuthenticatedApp = () => {
-  const { logout, user } = useAuth();
   return (
     <Container>
-      <Header between={true}>
-        <HeaderLeft gap={true}>
-          <SoftwareLogo width={"18rem"} color={"rgb(38,132,255)"} />
-          <h2>项目</h2>
-          <h2>用户</h2>
-        </HeaderLeft>
-        <HeaderRight>
-          <Dropdown
-            dropdownRender={() => (
-              <Button type="primary" onClick={logout}>
-                登出
-              </Button>
-            )}
-          >
-            <Button onClick={(e) => e.preventDefault()}>Hi,{user?.name}</Button>
-          </Dropdown>
-        </HeaderRight>
-      </Header>
-
+      <PageHeader />
       <Main>
-        <ProjectList />
+        {/* 路由配置 */}
+        <Routes>
+          <Route path={"/projects"} element={<ProjectList />} />
+          <Route path={"/projects/:projectId/*"} element={<ProjectScreen />} />
+          <Route index element={<ProjectList />} />
+        </Routes>
       </Main>
+      {/* <ProjectList /> */}
     </Container>
+  );
+};
+
+const PageHeader = () => {
+  const { logout, user } = useAuth();
+
+  return (
+    <Header between={true}>
+      <HeaderLeft gap={true}>
+        <Button type={"link"} onClick={resetRoute}>
+          <SoftwareLogo width={"18rem"} color={"rgb(38,132,255)"} />
+        </Button>
+        <h2>项目</h2>
+        <h2>用户</h2>
+      </HeaderLeft>
+      <HeaderRight>
+        <Dropdown
+          dropdownRender={() => (
+            <Button type="primary" onClick={logout}>
+              登出
+            </Button>
+          )}
+        >
+          <Button onClick={(e) => e.preventDefault()}>Hi,{user?.name}</Button>
+        </Dropdown>
+      </HeaderRight>
+    </Header>
   );
 };
 
@@ -64,10 +82,10 @@ const Header = styled(Row)`
 const HeaderLeft = styled(Row)``;
 const HeaderRight = styled.div``;
 
-const PageHeader = styled.header`
-  height: 6rem;
-  background-color: gray;
-`;
+// const PageHeader = styled.header`
+//   height: 6rem;
+//   background-color: gray;
+// `;
 
 const Main = styled.main`
   /* display: flex;

@@ -165,6 +165,24 @@ npm install react-helmet
 npm i --save-dev @types/react-helmet
 ```
 
+### 8.react-router
+
+```
+安装:
+npm install react-router@6 react-router-dom@6
+npm install history
+npm install @types/react-router-dom
+```
+
+### 9.why-did-you-render
+
+判断页面渲染原因
+
+```
+安装:
+npm install @welldone-software/why-did-you-render --save-dev
+```
+
 ## 错误介绍
 
 ### 1.prettier

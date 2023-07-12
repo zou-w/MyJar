@@ -48,7 +48,7 @@ export const SearchPanel = ({
           <Select.Option value="">负责人:</Select.Option>
           {users.map((item) => {
             return (
-              <Select.Option value={item.id} key={item.id}>
+              <Select.Option value={String(item.id)} key={item.id}>
                 {item.name}
               </Select.Option>
             );

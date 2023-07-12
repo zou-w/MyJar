@@ -1,3 +1,6 @@
+//必须在第一句引入
+import "./wdyr";
+
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
