@@ -2,6 +2,7 @@ import qs from "qs";
 
 import * as auth from "auth-provider";
 import { useAuth } from "pages/context/auth-context";
+import { useCallback } from "react";
 
 //请求的baseUrl
 const apiUrl = process.env.REACT_APP_API_URL;
@@ -52,6 +53,9 @@ export const http = async (
 
 export const useHttp = () => {
   const { user } = useAuth();
-  return (...[endpoint, config]: Parameters<typeof http>) =>
-    http(endpoint, { ...config, token: user?.token });
+  return useCallback(
+    (...[endpoint, config]: Parameters<typeof http>) =>
+      http(endpoint, { ...config, token: user?.token }),
+    [user?.token]
+  );
 };

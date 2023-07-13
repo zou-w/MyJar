@@ -1,5 +1,5 @@
 import { Project } from "pages/project-list/list";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { cleanObject } from "utils";
 import { useHttp } from "./http";
 import { useAsync } from "./myHook";
@@ -8,14 +8,16 @@ export const useProject = (list?: Partial<Project>) => {
   const client = useHttp();
   const { run, ...result } = useAsync<Project[]>();
 
-  const fetchProject = () =>
-    client("projects", { data: cleanObject(list || {}) });
+  const fetchProject = useCallback(
+    () => client("projects", { data: cleanObject(list || {}) }),
+    [client, list]
+  );
 
   useEffect(() => {
     run(fetchProject(), {
       retry: fetchProject,
     });
-  }, [list]);
+  }, [list, run, fetchProject]);
 
   return result;
 };
