@@ -12,16 +12,16 @@ export interface RouteObject {
 
 //name 和 icon 属性不是必须属性
 const routes: RouteObject[] = [
-  {
-    path: "/projects",
-    element: <ProjectList />,
-    children: [
-      {
-        path: ":projectId/*",
-        element: <ProjectScreen />,
-      },
-    ],
-  },
+  // {
+  //   path: "/projects",
+  //   element: <ProjectList />,
+  //   children: [
+  //     {
+  //       path: ":projectId/*",
+  //       element: <ProjectScreen />,
+  //     },
+  //   ],
+  // },
   //重定向
   // {
   //   path: "/",

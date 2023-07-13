@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Row } from "components/lib";
+import { ButtonNoPadding, Row } from "components/lib";
 import { useAuth } from "pages/context/auth-context";
 import { ProjectList } from "pages/project-list";
 import { ReactComponent as SoftwareLogo } from "assets/software-logo.svg";
@@ -10,6 +10,9 @@ import { ProjectScreen } from "pages/project";
 
 import routes from "routes";
 import { resetRoute } from "utils";
+import { ProjectModal } from "pages/project-list/project-modal";
+import { useState } from "react";
+import { ProjectPopover } from "components/project-popover";
 /**
  * grid 和 flex 各自的应用场景
  * 1. 要考虑，是一维布局 还是 二维布局
@@ -23,46 +26,60 @@ import { resetRoute } from "utils";
  */
 
 export const AuthenticatedApp = () => {
+  const [projectModalOpen, setProjectModalOpen] = useState(false);
   return (
     <Container>
-      <PageHeader />
+      <PageHeader setProjectModalOpen={setProjectModalOpen} />
       <Main>
         {/* 路由配置 */}
         <Routes>
-          <Route path={"/projects"} element={<ProjectList />} />
+          <Route
+            path={"/projects"}
+            element={<ProjectList setProjectModalOpen={setProjectModalOpen} />}
+          />
           <Route path={"/projects/:projectId/*"} element={<ProjectScreen />} />
-          <Route index element={<ProjectList />} />
         </Routes>
       </Main>
-      {/* <ProjectList /> */}
+      <ProjectModal
+        projectModalOpen={projectModalOpen}
+        onClose={() => setProjectModalOpen(false)}
+      />
     </Container>
   );
 };
 
-const PageHeader = () => {
-  const { logout, user } = useAuth();
-
+const PageHeader = (props: {
+  setProjectModalOpen: (isOpen: boolean) => void;
+}) => {
   return (
     <Header between={true}>
       <HeaderLeft gap={true}>
-        <Button type={"link"} onClick={resetRoute}>
+        <ButtonNoPadding type={"link"} onClick={resetRoute}>
           <SoftwareLogo width={"18rem"} color={"rgb(38,132,255)"} />
-        </Button>
-        <h2>项目</h2>
-        <h2>用户</h2>
+        </ButtonNoPadding>
+        <ProjectPopover setProjectModalOpen={props.setProjectModalOpen} />
+        <span>用户</span>
       </HeaderLeft>
       <HeaderRight>
-        <Dropdown
-          dropdownRender={() => (
-            <Button type="primary" onClick={logout}>
-              登出
-            </Button>
-          )}
-        >
-          <Button onClick={(e) => e.preventDefault()}>Hi,{user?.name}</Button>
-        </Dropdown>
+        <User />
       </HeaderRight>
     </Header>
+  );
+};
+
+const User = () => {
+  const { logout, user } = useAuth();
+
+  return (
+    <Dropdown
+      dropdownRender={() => (
+        <Button type="primary" onClick={logout}>
+          登出
+        </Button>
+      )}
+    >
+      <Button onClick={(e) => e.preventDefault()}>Hi,{user?.name}</Button>
+    </Dropdown>
   );
 };
 
