@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useMountedRef } from "utils";
 
 //页面加载数据
 export const useMount = (callback: () => void) => {
@@ -50,6 +51,10 @@ export const useAsync = <D>(
     ...defaultInitialState,
     ...initialState,
   });
+  const mountedRef = useMountedRef();
+
+  //useState直接传入函数的含义是:惰性初始化;所以用useState保存函数不能直接传入函数
+  const [retry, setRetry] = useState(() => () => {});
 
   const setData = (data: D) =>
     setState({
@@ -66,14 +71,23 @@ export const useAsync = <D>(
     });
 
   // 用来触发异步请求
-  const run = (promise: Promise<D>) => {
+  const run = (
+    promise: Promise<D>,
+    runConfig?: { retry: () => Promise<D> }
+  ) => {
     if (!promise || !promise.then) {
       throw new Error("请传入Promise类型数据");
     }
+    //存储上次请求的状态
+    setRetry(() => () => {
+      if (runConfig?.retry) {
+        run(runConfig?.retry(), runConfig);
+      }
+    });
     setState({ ...state, state: "loading" });
     return promise
       .then((data) => {
-        setData(data);
+        if (mountedRef.current) setData(data);
         return data;
       })
       .catch((error) => {
@@ -95,6 +109,8 @@ export const useAsync = <D>(
     run,
     setData,
     setError,
+    //被调用时,重新跑一边run,让state刷新
+    retry,
     ...state,
   };
 };

@@ -3,26 +3,41 @@ import { User } from "./search-panel";
 import dayjs from "dayjs";
 //react-router 和 react-router-dom的关系,类似于react和react-dom/react-native
 import { Link } from "react-router-dom";
+import { useEditProject } from "utils/project";
+import { Pin } from "components/pin";
 
 //TODO 把所有id都改成number类型
 export interface Project {
   id: number;
   name: string;
   personId: number;
-  pin: string;
+  pin: boolean;
   organization: string;
   created: number;
 }
 
 interface ListProps extends TableProps<Project> {
   users: User[];
+  refresh?: () => void;
 }
 
 export const List = ({ users, ...props }: ListProps) => {
+  const { mutate } = useEditProject();
+  const pinProject = (id: number) => (pin: boolean) =>
+    mutate({ id, pin }).then(props.refresh);
   return (
     <Table
+      rowKey={"id"}
       pagination={false}
       columns={[
+        {
+          title: <Pin checked={true} disabled={true} />,
+          render(value, list) {
+            return (
+              <Pin checked={list.pin} onCheckedChange={pinProject(list.id)} />
+            );
+          },
+        },
         {
           title: "名称",
           // dataIndex: "name",

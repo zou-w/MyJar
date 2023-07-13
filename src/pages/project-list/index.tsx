@@ -12,6 +12,7 @@ import { Helmet } from "react-helmet";
 import { useDocumentTitle } from "utils";
 import { useUrlQueryParam } from "utils/url";
 import { useProjectsSearchParams } from "./util";
+import { Button } from "antd";
 
 export const ProjectList = () => {
   useDocumentTitle("项目列表", false);
@@ -21,11 +22,13 @@ export const ProjectList = () => {
     isLoading,
     error,
     data: lists,
+    retry,
   } = useProject(useDebounce(inputValue, 500));
   const { data: users } = useUsers();
 
   return (
     <Container>
+      <Button onClick={retry}>retry</Button>
       {/* <Helmet>
         <title>项目列表</title>
       </Helmet> */}
@@ -35,12 +38,17 @@ export const ProjectList = () => {
         setInputValue={setInputValue}
         users={users || []}
       />
-      <List loading={isLoading} dataSource={lists || []} users={users || []} />
+      <List
+        refresh={retry}
+        loading={isLoading}
+        dataSource={lists || []}
+        users={users || []}
+      />
     </Container>
   );
 };
 
-ProjectList.whyDidYouRender = true;
+ProjectList.whyDidYouRender = false;
 
 const Container = styled.div`
   padding: 3.2rem;
