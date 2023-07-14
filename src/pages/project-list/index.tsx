@@ -15,9 +15,7 @@ import { useProjectsSearchParams } from "./util";
 import { Button } from "antd";
 import { ButtonNoPadding, Row } from "components/lib";
 
-export const ProjectList = (props: {
-  setProjectModalOpen: (isOpen: boolean) => void;
-}) => {
+export const ProjectList = (props: { projectButton: JSX.Element }) => {
   useDocumentTitle("项目列表", false);
 
   const [inputValue, setInputValue] = useProjectsSearchParams();
@@ -33,12 +31,7 @@ export const ProjectList = (props: {
     <Container>
       <Row marginBottom={2} between={true}>
         <h1>项目列表</h1>
-        <ButtonNoPadding
-          type={"link"}
-          onClick={() => props.setProjectModalOpen(true)}
-        >
-          创建项目
-        </ButtonNoPadding>
+        {props.projectButton}
       </Row>
       <SearchPanel
         inputValue={inputValue}
@@ -46,7 +39,7 @@ export const ProjectList = (props: {
         users={users || []}
       />
       <List
-        setProjectModalOpen={props.setProjectModalOpen}
+        projectButton={props.projectButton}
         refresh={retry}
         loading={isLoading}
         dataSource={lists || []}
