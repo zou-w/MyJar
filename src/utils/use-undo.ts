@@ -1,57 +1,77 @@
 import { useCallback, useState } from "react";
 
 export const useUndo = <T>(initialPresent: T) => {
-  //上一次的值
-  const [past, setPast] = useState<T[]>([]);
-  //当前的值
-  const [present, setPresent] = useState(initialPresent);
-  //next的值
-  const [future, setFuture] = useState<T[]>([]);
+  //定义状态
+  const [state, setState] = useState<{
+    past: T[];
+    present: T;
+    future: T[];
+  }>({
+    past: [],
+    present: initialPresent,
+    future: [],
+  });
 
   //可以撤回
-  const canUndo = past.length !== 0;
+  const canUndo = state.past.length !== 0;
   //可以恢复
-  const canRedo = future.length !== 0;
+  const canRedo = state.future.length !== 0;
 
-  const undo = () => {
-    if (!canUndo) return;
-    //可以就执行下面操作
-    const previous = past[past.length - 1]; //获取上次操作的值
-    const newPast = past.slice(0, past.length - 1); //更新数据
+  const undo = useCallback(() => {
+    setState((currentState) => {
+      const { past, present, future } = currentState;
+      if (!canUndo) return currentState;
+      //可以就执行下面操作
+      const previous = past[past.length - 1]; //获取上次操作的值
+      const newPast = past.slice(0, past.length - 1); //更新数据
 
-    setPast(newPast);
-    setPresent(previous);
-    setFuture([present, ...future]); //将值加入next
-  };
+      return {
+        past: newPast,
+        present: previous,
+        future: [present, ...future],
+      };
+    });
+  }, []);
 
-  const redo = () => {
-    if (!canRedo) return;
+  const redo = useCallback(() => {
+    setState((currentState) => {
+      const { present, past, future } = currentState;
+      if (!canRedo) return currentState;
 
-    const next = future[0]; //读取第一个值
-    const newFuture = future.slice(1); //去掉当前值
+      const next = future[0]; //读取第一个值
+      const newFuture = future.slice(1); //去掉当前值
 
-    setPresent(next);
-    setPast([...past, present]);
-    setFuture(newFuture);
-  };
+      return {
+        past: [...past, present],
+        present: next,
+        future: newFuture,
+      };
+    });
+  }, []);
 
-  const set = (newPresent: T) => {
-    if (newPresent === present) {
-      return;
-    }
-    setPast([...past, present]);
-    setPresent(newPresent);
-    setFuture([]);
-  };
+  const set = useCallback((newPresent: T) => {
+    setState((currentState) => {
+      const { past, present, future } = currentState;
+      if (newPresent === present) {
+        return currentState;
+      }
+      return {
+        past: [...past, present],
+        present: newPresent,
+        future: [],
+      };
+    });
+  }, []);
 
-  const reset = (newPresent: T) => {
-    setPast([]);
-    setPresent(newPresent);
-    setFuture([]);
-  };
+  const reset = useCallback((newPresent: T) => {
+    setState(() => {
+      return {
+        past: [],
+        present: newPresent,
+        future: [],
+      };
+    });
+  }, []);
 
-  return [
-    { past, present, future },
-    { set, reset, undo, redo, canRedo, canUndo },
-  ];
+  return [state, { set, reset, undo, redo, canUndo, canRedo }] as const;
 };
