@@ -5,7 +5,7 @@ import { useAuth } from "pages/context/auth-context";
 import { Button, Form, Input } from "antd";
 import { LongButton } from ".";
 import Password from "antd/es/input/Password";
-import { useAsync } from "utils/myHook";
+import { useAsync } from "utils/use-async";
 
 export const RegisterPage = ({
   onError,

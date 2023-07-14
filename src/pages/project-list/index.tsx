@@ -4,7 +4,7 @@ import { List } from "./list";
 import { SearchPanel } from "./search-panel";
 
 //引入自定义hook
-import { useAsync, useDebounce, useMount } from "utils/myHook";
+import { useDebounce, useMount } from "utils/myHook";
 import styled from "@emotion/styled";
 import { useProject } from "utils/project";
 import { useUsers } from "utils/user";

@@ -5,8 +5,9 @@ import { useState } from "react";
 
 import { User } from "pages/project-list/search-panel";
 import { http } from "utils/http";
-import { useAsync, useMount } from "utils/myHook";
+import { useMount } from "utils/myHook";
 import { FullPageErrorFallback, FullPageLoading } from "components/lib";
+import { useAsync } from "utils/use-async";
 
 interface AuthForm {
   username: string;
