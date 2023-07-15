@@ -183,6 +183,13 @@ npm install @types/react-router-dom
 npm install @welldone-software/why-did-you-render --save-dev
 ```
 
+### 10.react-redux/redux-toolkit
+
+```
+安装:
+npm install react-redux @reduxjs/toolkit
+```
+
 ## 错误介绍
 
 ### 1.prettier
