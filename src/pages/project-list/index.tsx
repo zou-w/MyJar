@@ -11,12 +11,13 @@ import { useUsers } from "utils/user";
 import { Helmet } from "react-helmet";
 import { useDocumentTitle } from "utils";
 import { useUrlQueryParam } from "utils/url";
-import { useProjectsSearchParams } from "./util";
+import { useProjectModal, useProjectsSearchParams } from "./util";
 import { Button } from "antd";
 import { ButtonNoPadding, Row } from "components/lib";
 
-export const ProjectList = (props: { projectButton: JSX.Element }) => {
+export const ProjectList = () => {
   useDocumentTitle("项目列表", false);
+  const { open } = useProjectModal();
 
   const [inputValue, setInputValue] = useProjectsSearchParams();
   const {
@@ -31,7 +32,9 @@ export const ProjectList = (props: { projectButton: JSX.Element }) => {
     <Container>
       <Row marginBottom={2} between={true}>
         <h1>项目列表</h1>
-        {props.projectButton}
+        <ButtonNoPadding onClick={open} type={"link"}>
+          创建项目
+        </ButtonNoPadding>
       </Row>
       <SearchPanel
         inputValue={inputValue}
@@ -39,7 +42,6 @@ export const ProjectList = (props: { projectButton: JSX.Element }) => {
         users={users || []}
       />
       <List
-        projectButton={props.projectButton}
         refresh={retry}
         loading={isLoading}
         dataSource={lists || []}

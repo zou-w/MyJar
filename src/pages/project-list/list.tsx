@@ -20,7 +20,6 @@ export interface Project {
 interface ListProps extends TableProps<Project> {
   users: User[];
   refresh?: () => void;
-  projectButton: JSX.Element;
 }
 
 export const List = ({ users, ...props }: ListProps) => {
@@ -44,7 +43,7 @@ export const List = ({ users, ...props }: ListProps) => {
           title: "名称",
           // dataIndex: "name",
           render(value, list) {
-            return <Link to={String(list.id)}>{list.name}</Link>;
+            return <Link to={`/projects/${list.id}`}>{list.name}</Link>;
           },
           //排序
           sorter: (a, b) => a.name.localeCompare(b.name),
@@ -86,7 +85,7 @@ export const List = ({ users, ...props }: ListProps) => {
                     items={[
                       {
                         key: "edit",
-                        label: props.projectButton,
+                        // label:
                       },
                     ]}
                   ></Menu>
