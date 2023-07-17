@@ -6,6 +6,7 @@ import { useAuth } from "pages/context/auth-context";
 import { Button, Form, Input } from "antd";
 import { LongButton } from ".";
 import { useAsync } from "utils/use-async";
+import { useDispatch } from "react-redux";
 
 export const LoginPage = ({ onError }: { onError: (error: Error) => void }) => {
   const { login } = useAuth();

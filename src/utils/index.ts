@@ -41,8 +41,7 @@ export const useDocumentTitle = (title: string, keepOnUnmount = true) => {
 };
 
 //重置路由
-export const resetRoute = () =>
-  (window.location.href = window.location.origin + "/projects");
+export const resetRoute = () => (window.location.href = window.location.origin);
 
 //返回组件挂载状态,如果还没挂载或者已经挂载,返回false,反之true
 export const useMountedRef = () => {

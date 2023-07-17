@@ -26,5 +26,5 @@ export const projectListSlice = createSlice({
 //导出action
 export const projectListActions = projectListSlice.actions;
 
-//导出状态
+//导出状态(定义接口才写,js可以不写)
 export const selectProjectModalOpen = (state: RootState) => state.projectList;
