@@ -9592,7 +9592,7 @@
   "resolved" "https://registry.npmmirror.com/react-is/-/react-is-18.2.0.tgz"
   "version" "18.2.0"
 
-"react-query@^3.5.10":
+"react-query@^3.39.3", "react-query@^3.5.10":
   "integrity" "sha512-nLfLz7GiohKTJDuT4us4X3h/8unOh+00MLb2yJoGTPjxKs2bc1iDhkNx2bd5MKklXnOD3NrVZ+J2UXujA5In4g=="
   "resolved" "https://registry.npmmirror.com/react-query/-/react-query-3.39.3.tgz"
   "version" "3.39.3"

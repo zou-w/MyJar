@@ -1,32 +1,27 @@
-import { useEffect, useState } from "react";
-
 import { List } from "./list";
 import { SearchPanel } from "./search-panel";
 
 //引入自定义hook
-import { useDebounce, useMount } from "utils/myHook";
+import { useDebounce } from "utils/myHook";
 import styled from "@emotion/styled";
-import { useProject } from "utils/project";
+import { useProjects } from "utils/project";
 import { useUsers } from "utils/user";
-import { Helmet } from "react-helmet";
 import { useDocumentTitle } from "utils";
-import { useUrlQueryParam } from "utils/url";
 import { useProjectModal, useProjectsSearchParams } from "./util";
-import { Button } from "antd";
-import { ButtonNoPadding, Row } from "components/lib";
+import { ButtonNoPadding, ErrorBox, Row } from "components/lib";
 
 export const ProjectList = () => {
-  useDocumentTitle("项目列表", false);
   const { open } = useProjectModal();
 
   const [inputValue, setInputValue] = useProjectsSearchParams();
   const {
     isLoading,
     error,
-    data: lists,
-    retry,
-  } = useProject(useDebounce(inputValue, 500));
+    data: list,
+  } = useProjects(useDebounce(inputValue, 500));
   const { data: users } = useUsers();
+
+  useDocumentTitle("项目列表", false);
 
   return (
     <Container>
@@ -41,16 +36,13 @@ export const ProjectList = () => {
         setInputValue={setInputValue}
         users={users || []}
       />
-      <List
-        refresh={retry}
-        loading={isLoading}
-        dataSource={lists || []}
-        users={users || []}
-      />
+      <ErrorBox error={error} />
+      <List loading={isLoading} users={users || []} dataSource={list || []} />
     </Container>
   );
 };
 
+//调试渲染
 ProjectList.whyDidYouRender = false;
 
 const Container = styled.div`

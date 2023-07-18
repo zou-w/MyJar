@@ -1,4 +1,4 @@
-import { Dropdown, Menu, Table, TableProps } from "antd";
+import { Dropdown, Menu, Table, TableProps, Tag } from "antd";
 import { User } from "./search-panel";
 import dayjs from "dayjs";
 //react-router 和 react-router-dom的关系,类似于react和react-dom/react-native
@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { useEditProject } from "utils/project";
 import { Pin } from "components/pin";
 import { ButtonNoPadding } from "components/lib";
+import { useProjectModal } from "./util";
 
 //TODO 把所有id都改成number类型
 export interface Project {
@@ -19,13 +20,15 @@ export interface Project {
 
 interface ListProps extends TableProps<Project> {
   users: User[];
-  refresh?: () => void;
 }
 
 export const List = ({ users, ...props }: ListProps) => {
   const { mutate } = useEditProject();
-  const pinProject = (id: number) => (pin: boolean) =>
-    mutate({ id, pin }).then(props.refresh);
+
+  const { startEdit } = useProjectModal();
+  const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin });
+  const editProject = (id: number) => () => startEdit(id);
+
   return (
     <Table
       rowKey={"id"}
@@ -77,7 +80,7 @@ export const List = ({ users, ...props }: ListProps) => {
           },
         },
         {
-          render(value, list) {
+          render(value, project) {
             return (
               <Dropdown
                 dropdownRender={() => (
@@ -85,7 +88,18 @@ export const List = ({ users, ...props }: ListProps) => {
                     items={[
                       {
                         key: "edit",
-                        // label:
+                        label: (
+                          <Tag
+                            color="#55acee"
+                            onClick={editProject(project.id)}
+                          >
+                            编辑
+                          </Tag>
+                        ),
+                      },
+                      {
+                        key: "delete",
+                        label: <Tag color="#cd201f">删除</Tag>,
                       },
                     ]}
                   ></Menu>

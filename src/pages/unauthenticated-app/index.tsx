@@ -1,16 +1,15 @@
 import { useState } from "react";
 import { RegisterPage } from "./register";
 import { LoginPage } from "./login";
-import { Card, Divider, Button, Typography } from "antd";
+import { Card, Divider, Button } from "antd";
 
 import logo from "assets/logo.svg";
 import right from "assets/right.svg";
 import left from "assets/left.svg";
 
-import { Helmet } from "react-helmet";
-
 import styled from "@emotion/styled";
 import { useDocumentTitle } from "utils";
+import { ErrorBox } from "components/lib";
 
 export default function UnauthenticatedApp() {
   const [isRegister, setIsRegister] = useState(false);
@@ -27,9 +26,7 @@ export default function UnauthenticatedApp() {
       <Background />
       <ShadowCard>
         <Title>{isRegister ? "请注册" : "请登录"}</Title>
-        {error ? (
-          <Typography.Text type="danger">{error.message}</Typography.Text>
-        ) : null}
+        <ErrorBox error={error} />
         {isRegister ? (
           <RegisterPage onError={setError} />
         ) : (

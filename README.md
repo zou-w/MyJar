@@ -190,6 +190,16 @@ npm install @welldone-software/why-did-you-render --save-dev
 npm install react-redux @reduxjs/toolkit
 ```
 
+### 11.react-query
+
+数据缓存
+
+```
+安装:
+npm install react-query
+
+```
+
 ## 错误介绍
 
 ### 1.prettier
