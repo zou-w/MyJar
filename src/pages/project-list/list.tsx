@@ -1,12 +1,12 @@
-import { Dropdown, Menu, Table, TableProps, Tag } from "antd";
+import { Dropdown, Menu, Modal, Table, TableProps, Tag } from "antd";
 import { User } from "./search-panel";
 import dayjs from "dayjs";
 //react-router 和 react-router-dom的关系,类似于react和react-dom/react-native
 import { Link } from "react-router-dom";
-import { useEditProject } from "utils/project";
+import { useDeleteProject, useEditProject } from "utils/project";
 import { Pin } from "components/pin";
 import { ButtonNoPadding } from "components/lib";
-import { useProjectModal } from "./util";
+import { useProjectModal, useProjectsQueryKey } from "./util";
 
 //TODO 把所有id都改成number类型
 export interface Project {
@@ -23,11 +23,10 @@ interface ListProps extends TableProps<Project> {
 }
 
 export const List = ({ users, ...props }: ListProps) => {
-  const { mutate } = useEditProject();
+  const { mutate } = useEditProject(useProjectsQueryKey());
 
   const { startEdit } = useProjectModal();
   const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin });
-  const editProject = (id: number) => () => startEdit(id);
 
   return (
     <Table
@@ -81,37 +80,58 @@ export const List = ({ users, ...props }: ListProps) => {
         },
         {
           render(value, project) {
-            return (
-              <Dropdown
-                dropdownRender={() => (
-                  <Menu
-                    items={[
-                      {
-                        key: "edit",
-                        label: (
-                          <Tag
-                            color="#55acee"
-                            onClick={editProject(project.id)}
-                          >
-                            编辑
-                          </Tag>
-                        ),
-                      },
-                      {
-                        key: "delete",
-                        label: <Tag color="#cd201f">删除</Tag>,
-                      },
-                    ]}
-                  ></Menu>
-                )}
-              >
-                <ButtonNoPadding type="link">...</ButtonNoPadding>
-              </Dropdown>
-            );
+            return <More project={project} />;
           },
         },
       ]}
       {...props}
     />
+  );
+};
+
+const More = ({ project }: { project: Project }) => {
+  const { startEdit } = useProjectModal();
+  const editProject = (id: number) => () => startEdit(id);
+  const { mutate: deleteProject } = useDeleteProject(useProjectsQueryKey());
+  const confirmDeleteProject = (id: number) => {
+    Modal.confirm({
+      title: "确定删除这个项目吗?",
+      content: "点击确定删除",
+      okText: "确定",
+      onOk() {
+        deleteProject({ id });
+      },
+    });
+  };
+  return (
+    <Dropdown
+      dropdownRender={() => (
+        <Menu
+          items={[
+            {
+              key: "edit",
+              label: (
+                <Tag color="#55acee" onClick={editProject(project.id)}>
+                  编辑
+                </Tag>
+              ),
+            },
+            {
+              key: "delete",
+              label: (
+                <Tag
+                  color="#cd201f"
+                  onClick={() => confirmDeleteProject(project.id)}
+                >
+                  删除
+                </Tag>
+              ),
+            },
+          ]}
+        ></Menu>
+      )}
+    >
+      <ButtonNoPadding type="link">...</ButtonNoPadding>
+    </Dropdown>
   );
 };
