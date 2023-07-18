@@ -1,5 +1,4 @@
 import { Dropdown, Menu, Modal, Table, TableProps, Tag } from "antd";
-import { User } from "./search-panel";
 import dayjs from "dayjs";
 //react-router 和 react-router-dom的关系,类似于react和react-dom/react-native
 import { Link } from "react-router-dom";
@@ -7,16 +6,8 @@ import { useDeleteProject, useEditProject } from "utils/project";
 import { Pin } from "components/pin";
 import { ButtonNoPadding } from "components/lib";
 import { useProjectModal, useProjectsQueryKey } from "./util";
-
-//TODO 把所有id都改成number类型
-export interface Project {
-  id: number;
-  name: string;
-  personId: number;
-  pin: boolean;
-  organization: string;
-  created: number;
-}
+import { Project } from "../../types/project";
+import { User } from "types/user";
 
 interface ListProps extends TableProps<Project> {
   users: User[];

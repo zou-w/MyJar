@@ -2,12 +2,12 @@ import * as auth from "auth-provider";
 
 import React, { ReactNode } from "react";
 
-import { User } from "pages/project-list/search-panel";
 import { http } from "utils/http";
 import { useMount } from "utils/myHook";
 import { FullPageErrorFallback, FullPageLoading } from "components/lib";
 import { useAsync } from "utils/use-async";
 import { useQueryClient } from "react-query";
+import { User } from "types/user";
 
 interface AuthForm {
   username: string;

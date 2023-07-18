@@ -1,4 +1,4 @@
-import { User } from "pages/project-list/search-panel";
+import { User } from "types/user";
 
 //请求的baseUrl
 const apiUrl = process.env.REACT_APP_API_URL;
