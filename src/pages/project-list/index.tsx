@@ -8,7 +8,12 @@ import { useProjects } from "utils/project";
 import { useUsers } from "utils/user";
 import { useDocumentTitle } from "utils";
 import { useProjectModal, useProjectsSearchParams } from "./util";
-import { ButtonNoPadding, ErrorBox, Row } from "components/lib";
+import {
+  ButtonNoPadding,
+  ErrorBox,
+  Row,
+  ScreenContainer,
+} from "components/lib";
 
 export const ProjectList = () => {
   const { open } = useProjectModal();
@@ -24,7 +29,7 @@ export const ProjectList = () => {
   useDocumentTitle("项目列表", false);
 
   return (
-    <Container>
+    <ScreenContainer>
       <Row marginBottom={2} between={true}>
         <h1>项目列表</h1>
         <ButtonNoPadding onClick={open} type={"link"}>
@@ -38,13 +43,9 @@ export const ProjectList = () => {
       />
       <ErrorBox error={error} />
       <List loading={isLoading} users={users || []} dataSource={list || []} />
-    </Container>
+    </ScreenContainer>
   );
 };
 
 //调试渲染
 ProjectList.whyDidYouRender = false;
-
-const Container = styled.div`
-  padding: 3.2rem;
-`;
