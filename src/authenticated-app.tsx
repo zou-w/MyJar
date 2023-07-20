@@ -5,10 +5,9 @@ import { ProjectList } from "pages/project-list";
 import { ReactComponent as SoftwareLogo } from "assets/software-logo.svg";
 import { Button, Dropdown } from "antd";
 
-import { Navigate, Route, Routes } from "react-router";
+import { Route, Routes } from "react-router";
 import { ProjectScreen } from "pages/project";
 
-import routes from "routes";
 import { resetRoute } from "utils";
 import { ProjectModal } from "pages/project-list/project-modal";
 import { useState } from "react";
@@ -26,7 +25,6 @@ import { ProjectPopover } from "components/project-popover";
  */
 
 export const AuthenticatedApp = () => {
-  const [projectModalOpen, setProjectModalOpen] = useState(false);
   return (
     <Container>
       <PageHeader />
