@@ -200,6 +200,16 @@ npm install react-query
 
 ```
 
+### 12.react-beautiful-dnd
+
+拖拽工具
+
+```
+安装：
+npm install react-beautiful-dnd
+npm install @types/react-beautiful-dnd -D
+```
+
 ## 错误介绍
 
 ### 1.prettier

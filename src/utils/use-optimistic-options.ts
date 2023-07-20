@@ -35,5 +35,8 @@ export const useEditConfig = (queryKey: QueryKey) =>
         item.id === target.id ? { ...item, ...target } : item
       ) || []
   );
+
 export const useAddConfig = (queryKey: QueryKey) =>
-  useConfig(queryKey, (target, old) => (old ? [...old, target] : []));
+  useConfig(queryKey, (target, old) => {
+    return old ? [...old, target] : [target];
+  });

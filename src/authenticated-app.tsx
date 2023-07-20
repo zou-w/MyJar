@@ -3,7 +3,7 @@ import { ButtonNoPadding, Row } from "components/lib";
 import { useAuth } from "pages/context/auth-context";
 import { ProjectList } from "pages/project-list";
 import { ReactComponent as SoftwareLogo } from "assets/software-logo.svg";
-import { Button, Dropdown, Menu, MenuProps, Space } from "antd";
+import { Button, Dropdown } from "antd";
 
 import { Navigate, Route, Routes } from "react-router";
 import { ProjectScreen } from "pages/project";

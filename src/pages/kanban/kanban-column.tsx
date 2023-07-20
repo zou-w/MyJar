@@ -17,6 +17,7 @@ import { Task } from "types/task";
 import { Row } from "components/lib";
 import { useDeleteKanban } from "utils/kanban";
 import { CreateTask } from "./create-task";
+import React from "react";
 
 const TaskTypeIcon = ({ id }: { id: number }) => {
   const { data: taskTypes } = useTaskTypes();
@@ -44,25 +45,28 @@ const TaskCard = ({ task }: { task: Task }) => {
   );
 };
 
-export const KanbanColumn = ({ kanban }: { kanban: Kanban }) => {
+export const KanbanColumn = React.forwardRef<
+  HTMLDivElement,
+  { kanban: Kanban }
+>(({ kanban, ...props }, ref) => {
   const { data: allTasks } = useTasks(useTasksSearchParams());
   const tasks = allTasks?.filter((task) => task.kanbanId === kanban.id);
 
   return (
-    <Container>
+    <Container {...props} ref={ref}>
       <Row between={true}>
         <h3>{kanban.name}</h3>
-        <More kanban={kanban} />
+        <More kanban={kanban} key={kanban.id} />
       </Row>
       <TasksContainer>
         {tasks?.map((task) => (
-          <TaskCard task={task} />
+          <TaskCard key={task.id} task={task} />
         ))}
         <CreateTask kanbanId={kanban.id} />
       </TasksContainer>
     </Container>
   );
-};
+});
 
 const More = ({ kanban }: { kanban: Kanban }) => {
   const { mutateAsync } = useDeleteKanban(useKanbansQueryKey());
@@ -76,17 +80,24 @@ const More = ({ kanban }: { kanban: Kanban }) => {
       },
     });
   };
-  const overlay = (
-    <Menu>
-      <Menu.Item>
-        <Button type={"link"} onClick={startDelete}>
-          删除
-        </Button>
-      </Menu.Item>
-    </Menu>
-  );
+
   return (
-    <Dropdown overlay={overlay}>
+    <Dropdown
+      dropdownRender={() => (
+        <Menu
+          items={[
+            {
+              key: "delete",
+              label: (
+                <Button type={"link"} onClick={startDelete}>
+                  删除
+                </Button>
+              ),
+            },
+          ]}
+        ></Menu>
+      )}
+    >
       <Button type={"link"}>...</Button>
     </Dropdown>
   );
