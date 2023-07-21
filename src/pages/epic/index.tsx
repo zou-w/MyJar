@@ -65,6 +65,7 @@ export const EpicPage = () => {
                   <Link
                     to={`/projects/${currentProject?.id}/kanban?editingTaskId=${task.id}`}
                     key={task.id}
+                    style={{ marginRight: "10px" }}
                   >
                     {task.name}
                   </Link>
@@ -75,7 +76,7 @@ export const EpicPage = () => {
       />
       <CreateEpic
         onClose={() => setEpicCreateOpen(false)}
-        visible={epicCreateOpen}
+        open={epicCreateOpen}
       />
     </ScreenContainer>
   );

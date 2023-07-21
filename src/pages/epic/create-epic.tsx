@@ -9,7 +9,7 @@ import { useEpicsQueryKey } from "./util";
 import { useProjectIdInUrl } from "pages/kanban/util";
 
 export const CreateEpic = (
-  props: Pick<DrawerProps, "visible"> & { onClose: () => void }
+  props: Pick<DrawerProps, "open"> & { onClose: () => void }
 ) => {
   const { mutate: addEpic, isLoading, error } = useAddEpic(useEpicsQueryKey());
   const [form] = useForm();
@@ -22,11 +22,11 @@ export const CreateEpic = (
 
   useEffect(() => {
     form.resetFields();
-  }, [form, props.visible]);
+  }, [form, props.open]);
 
   return (
     <Drawer
-      visible={props.visible}
+      open={props.open}
       onClose={props.onClose}
       forceRender={true}
       destroyOnClose={true}

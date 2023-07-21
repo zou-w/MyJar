@@ -36,7 +36,7 @@ export const List = ({ users, ...props }: ListProps) => {
           title: "名称",
           // dataIndex: "name",
           render(value, list) {
-            return <Link to={`/projects/${list.id}`}>{list.name}</Link>;
+            return <Link to={`/projects/${list.id}/kanban`}>{list.name}</Link>;
           },
           //排序
           sorter: (a, b) => a.name.localeCompare(b.name),
