@@ -40,7 +40,9 @@
     "test": "craco test",
     "eject": "craco eject",
     "prepare": "husky install",
-    "json-server": "json-server __json_server_mock__/db.json --watch --port 3004 --middlewares ./__json_server_mock__/middleware.js"
+    "json-server": "json-server __json_server_mock__/db.json --watch --port 3004 --middlewares ./__json_server_mock__/middleware.js",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build -r git@github.com:zou-w/zou-w.github.io.git -b main"
   },
   "eslintConfig": {
     "extends": [
@@ -65,6 +67,7 @@
     "@types/react-beautiful-dnd": "^13.1.4",
     "@welldone-software/why-did-you-render": "^7.0.1",
     "eslint-config-prettier": "^8.8.0",
+    "gh-pages": "^5.0.0",
     "husky": "^8.0.3",
     "json-server": "^0.17.3",
     "lint-staged": "^13.2.2",

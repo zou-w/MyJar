@@ -10,7 +10,6 @@ import { ProjectScreen } from "pages/project";
 
 import { resetRoute } from "utils";
 import { ProjectModal } from "pages/project-list/project-modal";
-import { useState } from "react";
 import { ProjectPopover } from "components/project-popover";
 import { UserPopover } from "components/user-popover";
 /**

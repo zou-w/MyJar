@@ -1,5 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
-import { useMountedRef } from "utils";
+import { useEffect, useState } from "react";
 
 //页面加载数据
 export const useMount = (callback: () => void) => {

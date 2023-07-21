@@ -210,6 +210,52 @@ npm install react-beautiful-dnd
 npm install @types/react-beautiful-dnd -D
 ```
 
+## 部署
+
+zou-w.github.io
+
+### 1.spa-github-pages
+
+```
+安装：
+npm install gh-pages -D
+修改指令：
+ "predeploy": "npm run build",
+ "deploy": "gh-pages -d build -r git@github.com:zou-w/zou-w.github.io.git -b main"
+运行：npm run deploy
+解决部署路由问题:
+添加404.html
+添加到head：
+<script type="text/javascript">
+      // Single Page Apps for GitHub Pages
+      // MIT License
+      // https://github.com/rafgraph/spa-github-pages
+      // This script checks to see if a redirect is present in the query string,
+      // converts it back into the correct url and adds it to the
+      // browser's history using window.history.replaceState(...),
+      // which won't cause the browser to attempt to load the new url.
+      // When the single page app is loaded further down in this file,
+      // the correct url will be waiting in the browser's history for
+      // the single page app to route accordingly.
+      (function (l) {
+        if (l.search[1] === "/") {
+          var decoded = l.search
+            .slice(1)
+            .split("&")
+            .map(function (s) {
+              return s.replace(/~and~/g, "&");
+            })
+            .join("?");
+          window.history.replaceState(
+            null,
+            null,
+            l.pathname.slice(0, -1) + decoded + l.hash
+          );
+        }
+      })(window.location);
+    </script>
+```
+
 ## 错误介绍
 
 ### 1.prettier
